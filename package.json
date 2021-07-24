@@ -1,0 +1,22 @@
+{
+  "name": "olympic",
+  "version": "1.0.0",
+  "description": "olympic game tokyo 2020",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ronnie Song",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ronniesong0809/olympic.git"
+  },
+  "keywords": [
+    "olympics"
+  ],
+  "bugs": {
+    "url": "https://github.com/ronniesong0809/olympic/issues"
+  },
+  "homepage": "https://github.com/ronniesong0809/olympic#readme"
+}
