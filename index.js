@@ -1,6 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const fs = require("fs");
+const stringify = require("csv-stringify");
 
 const fetchData = () => {
   const url =
@@ -34,6 +35,10 @@ const fetchData = () => {
 
 const saveToFile = data => {
   fs.writeFileSync("./data/data.json", JSON.stringify(data, null, 2));
+
+  stringify(data, (_, output) => {
+    fs.writeFileSync("./data/data.csv", output);
+  });
 };
 
 fetchData().then(data => {
