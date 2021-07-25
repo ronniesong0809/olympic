@@ -14,12 +14,14 @@ const fetchData = () => {
   return axios.get(url, headers).then(response => {
     const $ = cheerio.load(response.data);
     const data = [];
+    let rank = 1;
 
     $("#medal-standing > table > tbody > tr").each((_, tr) => {
       const tds = $(tr).find("td");
       const last_updated = Date.now();
 
       data.push({
+        rank: rank++,
         country: tds.eq(1).text().trim(),
         gold: Number(tds.eq(2).text()),
         silver: Number(tds.eq(3).text()),
