@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/ronniesong0809/olympic/issues"
   },
-  "homepage": "https://github.com/ronniesong0809/olympic#readme"
+  "homepage": "https://github.com/ronniesong0809/olympic#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.10"
+  }
 }
