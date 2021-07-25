@@ -11,11 +11,11 @@ const fetchData = () => {
     $("#medal-standing > table > tbody > tr").each((_, tr) => {
       const tds = $(tr).find("td");
       const country = tds.eq(1).text().trim();
-      const gold = tds.eq(2).text().trim();
-      const silver = tds.eq(3).text().trim();
-      const bronze = tds.eq(4).text().trim();
-      const total_medals = tds.eq(5).text().trim();
-      const total_rank = tds.eq(6).text().trim();
+      const gold = Number(tds.eq(2).text());
+      const silver = Number(tds.eq(3).text());
+      const bronze = Number(tds.eq(4).text());
+      const total_medals = Number(tds.eq(5).text());
+      const total_rank = Number(tds.eq(6).text());
       console.log(country, gold, silver, bronze, total_medals, total_rank);
     });
   });
