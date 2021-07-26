@@ -24,17 +24,19 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: npm install
+    - name: Install packages
       run: npm install
-    - name: run
+    - name: Scraping
       env:
         MONGODB_URL: ${{ secrets.MONGODB_URL }}
         MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
       run: npm start
-    - name: comment
+    - name: Commit Changes
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
+        git fetch --unshallow
+        git reset ${{ secrets.COMMIT_SHA1 }}
         git commit --allow-empty-message --no-edit -a
     - name: Push changes
       uses: ad-m/github-push-action@master
