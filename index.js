@@ -2,6 +2,9 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const fs = require("fs");
 const stringify = require("csv-stringify");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const fetchData = () => {
   const url =
@@ -15,10 +18,10 @@ const fetchData = () => {
     const $ = cheerio.load(response.data);
     const data = [];
     let rank = 1;
+    const last_updated = Date.now();
 
     $("#medal-standing > table > tbody > tr").each((_, tr) => {
       const tds = $(tr).find("td");
-      const last_updated = Date.now();
 
       data.push({
         rank: rank++,
@@ -43,6 +46,46 @@ const saveToFile = data => {
   });
 };
 
+const saveToMongo = async data => {
+  const server = process.env.MONGODB_URL;
+  const database = process.env.MONGODB_DATABASE;
+
+  mongoose
+    .connect(`${server}/${database}?retryWrites=true&w=majority`, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then(() => {
+      console.log(`Database ${database} connection successful!`);
+    })
+    .catch(error => {
+      console.error(`Database ${database} connection error: ${error}`);
+    });
+
+  let OlympicSchema = mongoose.Schema(
+    {
+      rank: Number,
+      country: String,
+      gold: Number,
+      silver: Number,
+      bronze: Number,
+      total_medals: Number,
+      total_rank: Number,
+      last_updated: Number
+    },
+    {
+      collection: "Olympic",
+      versionKey: false
+    }
+  );
+
+  const model = mongoose.model("Olympic", OlympicSchema, "Olympic");
+  await model.deleteMany({});
+  await model.insertMany(data);
+  mongoose.connection.close();
+};
+
 fetchData().then(data => {
   saveToFile(data);
+  saveToMongo(data);
 });
